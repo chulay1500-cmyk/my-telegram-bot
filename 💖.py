@@ -32,11 +32,15 @@ from reply_system import register_reply_system
 # from link import register_link_system
 # from clear import register_clear_system
 
-# ================= CONFIG =================
-api_id = 38180913
-api_hash = "192dcce296fc8607d9828d83bc7b8bb5"
-bot_token = "8593935916:AAE-5LFj-0X1SBKZ76TIEj1jsZADZ6KkIns"
-OWNER_IDS = [-1003795852457,-1003721025417,7260737562,8597326828]
+# ================= CONFIG ( Variables ကနေ ဖတ်မယ်) =================
+api_id = int(os.getenv("API_ID", "None")) # မတွေ့ရင် default သုံးမယ်
+api_hash = os.getenv("API_HASH", "None")
+bot_token = os.getenv("BOT_TOKEN", "None")
+
+# Owner IDs အတွက် list အဖြစ် ပြောင်းယူခြင်း
+raw_owners = os.getenv("OWNER_IDS", "None")
+OWNER_IDS = [int(i.strip()) for i in raw_owners.split(",")]
+
 
 REPLY_FILE = "replies.json"
 COUNTER_FILE = "counter.json"
@@ -198,8 +202,8 @@ GROUP_CMDS = """<blockquote expandable>
 📂 /file                      → Group broadcast (1 day limit)
 📊 /fileinfo               → file remaining time
 ╚═════════════════════════════════╝
-Channel : @DanGerOus_SKO
-Owner   : @DanGerOusSiteKo
+Channel : None
+Owner   : None
 </blockquote>"""
 
 @client.on(events.NewMessage(pattern="/help"))
@@ -216,7 +220,7 @@ async def back_menu(event):
 
 # ================= AUTO REACTION & START SYSTEM =================
 COUNTER = {}
-STICKER_ID = "BAADBQADDBgAAmGO0VbASxrUpkVFRwI"
+STICKER_ID = "CAACAgUAAxkBAAIe8mmqfnD0jSxHb4kreFzJvcfPFKKbAAIZGwAC1TmgVSBQbkNGcGBSHgQ"
 
 @client.on(events.NewMessage)
 async def main_handler(event):
@@ -246,8 +250,8 @@ async def start_cmd(event):
             await asyncio.sleep(0.4); await msg.edit(frame)
         await asyncio.sleep(0.5); await msg.delete()
 
-    text = f"<blockquote expandable>💖 𝐇𝐞𝐥𝐥𝐨 {mention}!\n\n𝐈 𝐚𝐦 𝐍𝐠𝐚𝐬𝐚𝐫 က 𝐆𝐫𝐨𝐮𝐩 𝐎𝐧𝐥𝐲 မှာ 𝐎𝐧𝐥𝐢𝐧𝐞 𝐌𝐞မေမေ နဲ့ အတူ 𝐑𝐞𝐩𝐥𝐲 ပြန်ပေးတဲ့ စက်ရုပ်လေးပါ။</blockquote>"
-    await event.respond(text, buttons=[[Button.url("➕ Group ထဲထည့်ပါ", "https://t.me/DanGerOusNgaSar_Bot?startgroup=true")]], parse_mode="html")
+    text = f"<blockquote expandable>💖 𝐇𝐞𝐥𝐥𝐨 {mention}!\n\n Sir Bot က 𝐆𝐫𝐨𝐮𝐩 𝐎𝐧𝐥𝐲 မှာ 𝐎𝐧𝐥𝐢𝐧𝐞 𝐌𝐞ေ နဲ့ အတူ 𝐑𝐞𝐩𝐥𝐲 ပြန်ပေးတဲ့ စက်ရုပ်လေးပါ။</blockquote>"
+    await event.respond(text, buttons=[[Button.url("➕ Group ထဲထည့်ပါ", "https://t.me/?startgroup=true")]], parse_mode="html")
 
 # ================= OWNER COMMANDS =================
 @client.on(events.NewMessage(pattern="/send"))
